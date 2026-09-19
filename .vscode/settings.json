@@ -1,0 +1,7 @@
+{
+  "recommendations": [
+    "csstree.valid"
+  ],
+  "customData": [],
+  "css.lint.unknownAtRules": "ignore"
+}

@@ -1,0 +1,28 @@
+{
+  "manifest_version": 3,
+  "name": "Control Terminal - Time, Weather & Notes",
+  "version": "1.0.0",
+  "description": "Futuristic dark industrial control terminal for New Tab with World Clock, Map, Weather, Stopwatch, Timer & Notes.",
+  "chrome_url_overrides": {
+    "newtab": "index.html"
+  },
+  "action": {
+    "default_popup": "popup.html",
+    "default_title": "Control Terminal"
+  },
+  "permissions": [
+    "storage",
+    "notifications",
+    "geolocation"
+  ],
+  "host_permissions": [
+    "https://api.open-meteo.com/*",
+    "https://air-quality-api.open-meteo.com/*",
+    "https://geocoding-api.open-meteo.com/*"
+  ],
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  }
+}
