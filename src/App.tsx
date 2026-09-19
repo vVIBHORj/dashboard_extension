@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import { Header } from './components/Header';
 import { WorldClockMap } from './components/WorldClockMap';
 import { CityClockCards } from './components/CityClockCards';
 import { CitySearch } from './components/CitySearch';
@@ -119,32 +118,15 @@ export const App: React.FC = () => {
 
   return (
     <div className="h-screen w-screen bg-gradient-to-b from-[#090a0d] via-[#07080a] to-[#050608] text-[#dcd6cd] flex flex-col justify-between font-sans overflow-hidden p-2 sm:p-3">
-      {/* Top Header */}
-      <Header
-        soundEnabled={settings.soundEnabled}
-        soundVolume={settings.soundVolume}
-        onToggleSound={() => {
-          playClick();
-          handleSaveSettings({ ...settings, soundEnabled: !settings.soundEnabled });
-        }}
-        onVolumeChange={(vol) => {
-          handleSaveSettings({ ...settings, soundVolume: vol, soundEnabled: vol > 0 });
-        }}
-        onOpenSettings={() => {
-          playClick();
-          setIsSettingsOpen(true);
-        }}
-      />
-
-      {/* Main Content Area - Fits 100% Height without scrolling */}
-      <main className="flex-1 max-w-[1600px] w-full mx-auto my-1 flex flex-col justify-between gap-2.5 overflow-hidden">
-        {/* Top 2-Column Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 flex-1 items-stretch overflow-hidden">
+      {/* Main Content Area - Full screen viewport fit without top bar */}
+      <main className="flex-1 max-w-[1640px] w-full mx-auto flex flex-col justify-between gap-2.5 overflow-hidden">
+        {/* Top 2-Column Grid: 55% Left (Map + Search + Cities) | 45% Right (Control Panel + Local Notes) */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-3 flex-1 items-stretch overflow-hidden min-h-0">
           
           {/* LEFT COLUMN: 7 cols (~55%) */}
-          <div className="lg:col-span-7 flex flex-col justify-between bg-gradient-to-b from-[#111318] via-[#101216] to-[#0c0d11] border border-[#1b1e26] rounded-lg p-3 shadow-2xl overflow-hidden">
-            {/* High-Fidelity Dotted World Clock Map */}
-            <div className="flex-1 flex items-center justify-center my-1 overflow-hidden min-h-0">
+          <div className="lg:col-span-7 flex flex-col justify-between bg-gradient-to-b from-[#111318] via-[#101216] to-[#0c0d11] border border-[#1b1e26] rounded-lg p-3.5 shadow-2xl overflow-hidden min-h-0">
+            {/* World Clock Map Visualization - Takes available flex height */}
+            <div className="flex-1 flex items-center justify-center my-0.5 overflow-hidden min-h-0 w-full">
               <WorldClockMap
                 cities={cities}
                 selectedCity={selectedCity}
@@ -175,8 +157,8 @@ export const App: React.FC = () => {
           </div>
 
           {/* RIGHT COLUMN: 5 cols (~45%) */}
-          <div className="lg:col-span-5 flex flex-col justify-between gap-2.5 overflow-hidden">
-            {/* Clock Control Panel (World Clock, Stopwatch, Timer) */}
+          <div className="lg:col-span-5 flex flex-col justify-between gap-2.5 overflow-hidden min-h-0">
+            {/* Clock Control Panel with relocated SOUND & Settings Controls */}
             <div className="shrink-0">
               <ClockControlPanel
                 hours={rightTime.hours}
@@ -186,11 +168,24 @@ export const App: React.FC = () => {
                 onTabChange={setActiveTab}
                 onPlayClick={playClick}
                 onTimerComplete={playAlarm}
+                soundEnabled={settings.soundEnabled}
+                soundVolume={settings.soundVolume}
+                onToggleSound={() => {
+                  playClick();
+                  handleSaveSettings({ ...settings, soundEnabled: !settings.soundEnabled });
+                }}
+                onVolumeChange={(vol) => {
+                  handleSaveSettings({ ...settings, soundVolume: vol, soundEnabled: vol > 0 });
+                }}
+                onOpenSettings={() => {
+                  playClick();
+                  setIsSettingsOpen(true);
+                }}
               />
             </div>
 
-            {/* Local Notes Panel */}
-            <div className="flex-1 min-h-0">
+            {/* Local Notes Panel with Auto-Bullets on Enter */}
+            <div className="flex-1 min-h-0 overflow-hidden">
               <NotesPanel onPlayClick={playClick} />
             </div>
           </div>
